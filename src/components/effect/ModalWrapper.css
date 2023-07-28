@@ -1,0 +1,38 @@
+/* ModalWrapper.css */
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(66, 66, 66, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-inner-content {
+  position: relative;
+  height: 100%;
+}
+
+.scrollable-content {
+  overflow: auto;
+  height: 100%;
+}
+
+.Modal {
+  z-index: 2;
+}
+
+.custom-modal-anime-details {
+  background-color: #101424;
+  color: white;
+  height: 95vh;
+  width: 100vw;
+  max-width: 1000px;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}

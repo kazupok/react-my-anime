@@ -1,0 +1,50 @@
+/* size */
+.in-w-size-l {
+  width: 20vw;
+}
+.in-w-size-m {
+  width: 15vw;
+}
+.in-w-size-s {
+  width: 10vw;
+}
+/* fontsize */
+.in-font-size-l {
+  font-size: 1.5rem;
+}
+.in-font-size-m {
+  font-size: 1.2rem;
+}
+.in-font-size-s {
+  font-size: 1rem;
+}
+/* padding */
+.in-pad-l {
+  padding: 1rem 2rem !important;
+}
+.in-pad-m {
+  padding: 0.2rem 0.5rem !important;
+}
+.in-pad-s {
+  padding: 0.1rem 0.3rem !important;
+}
+.in-pos-abs {
+  position: absolute;
+}
+
+/* 楕円 */
+.oval-input {
+  border-radius: 50px !important;
+  border: solid 0.3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 通常角なし */
+.radius-input {
+  border-radius: 10px !important;
+  border: solid 0.3rem;
+  padding: 1rem 2rem !important;
+  font-weight: bold;
+  font-size: 1rem;
+}

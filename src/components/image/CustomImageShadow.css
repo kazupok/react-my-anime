@@ -1,0 +1,16 @@
+.image-container {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+  
+  .image-container::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--overlay-height);
+    background: linear-gradient(to top, var(--overlay-color-start) 0%, var(--overlay-color-end) 100%);
+  }
+  

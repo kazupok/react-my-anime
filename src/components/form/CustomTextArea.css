@@ -1,0 +1,17 @@
+/* CustomInput.css */
+.oval-textarea {
+  border-radius: 50px !important;
+  border: solid 5px;
+  padding: 1rem 2rem !important;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* 通常角なし */
+.radius-textarea {
+  border-radius: 10px !important;
+  border: solid 0.3rem;
+  padding: 1rem 2rem !important;
+  font-weight: bold;
+  font-size: 1rem;
+}

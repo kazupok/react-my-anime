@@ -1,0 +1,27 @@
+.navbar-container {
+  height: 3vh;
+  width: 100%;
+}
+
+.navbar-home {
+    border-radius: 0 2rem 2rem 0;
+}
+.nav-dropdown {
+  padding-left: 1rem;
+}
+.hamburger-menu {
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.hamburger-menu-line {
+  background-color: #000;
+  height: 2px;
+  width: 100%;
+}

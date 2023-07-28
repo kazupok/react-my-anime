@@ -1,0 +1,87 @@
+/* size */
+.bt-w-size-l {
+  width: 20vw;
+}
+.bt-w-size-m {
+  width: 15vw;
+}
+.bt-w-size-s {
+  width: 10vw;
+}
+.bt-w-size-ss {
+  width: 5vw;
+}
+/* fontsize */
+.bt-font-size-l {
+  font-size: 1.5rem;
+}
+.bt-font-size-m {
+  font-size: 1.2rem;
+}
+.bt-font-size-s {
+  font-size: 1rem;
+}
+/* padding */
+.bt-pad-l {
+  padding: 1rem 2rem !important;
+}
+.bt-pad-m {
+  padding: 0.2rem 0.5rem !important;
+}
+.bt-pad-s {
+  padding: 0.1rem 0.3rem !important;
+}
+.bt-pos-abs {
+  position: absolute;
+}
+/* transform */
+.bt-trans {
+  transition: transform 0.3s ease;
+}
+.bt-trans-s:hover {
+  transform: scale(1.2);
+}
+
+/* ログイン系ボタン楕円 */
+.oval-button {
+  border-radius: 50px !important;
+  border: solid 0.3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* closeボタン */
+.close-button {
+  top: 20px;
+  left: 20px;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  z-index: 5;
+}
+.close-button:focus {
+  outline: none;
+}
+.close-button .close-button-icon {
+  transition: transform 0.3s ease;
+}
+.close-button:hover .close-button-icon {
+  transform: scale(1.7);
+}
+
+/* 通常角なし */
+.radius-button {
+  border-radius: 10px !important;
+  border: solid 0.3rem;
+  font-weight: bold;
+}
+
+/* text-toggle-closeボタン */
+.text-toggle-button {
+  top: 20px;
+  left: 20px;
+  border: none;
+  font-weight: bold;
+  padding: 5px;
+  transition: transform 0.3s ease;
+}
