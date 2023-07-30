@@ -23,7 +23,7 @@
 }
 
 .Modal {
-  z-index: 2;
+  z-index: 10;
 }
 
 .custom-modal-anime-details {

@@ -11,27 +11,27 @@ export const AnimeDataProvider = ({ children }) => {
     return animeData;
   };
 
-  // 特定のIDリストに含まれているアニメをソートする関数
-  const sortAnimeDataIncluded = (idList) => {
+  // 特定のIDリストに含まれているアニメをfilterする関数
+  const filterAnimeDataIncluded = (idList, key="id") => {
     if (!idList) return animeData;
-    const sortedAnimeData = idList.map((id) => {
-      return animeData.find((anime) => anime.id === id);
+    const filterAnimeData = idList.map((id) => {
+      return animeData.find((anime) => anime[key] === id);
     });
-    return sortedAnimeData;
+    return filterAnimeData;
   };
 
-  // IDリストに含まれていないアニメをソートする関数
-  const sortAnimeDataExcluded = (idList) => {
+  // IDリストに含まれていないアニメをfilterする関数
+  const filterAnimeDataExcluded = (idList, key="id") => {
     if (!idList) return animeData;
-    const sortedAnimeData = animeData.filter((anime) => {
-      return !idList.includes(anime.id);
+    const filterAnimeData = animeData.filter((anime) => {
+      return !idList.includes(anime[key]);
     });
-    return sortedAnimeData;
+    return filterAnimeData;
   };
 
   return (
     <AnimeDataContext.Provider
-      value={{ animeData, allAnimeData, sortAnimeDataIncluded, sortAnimeDataExcluded }}
+      value={{ animeData, allAnimeData, filterAnimeDataIncluded, filterAnimeDataExcluded }}
     >
       {children}
     </AnimeDataContext.Provider>

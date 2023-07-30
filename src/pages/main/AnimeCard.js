@@ -1,76 +1,133 @@
-import React, { useState, useEffect } from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+// useContext
 import { useCustomTheme } from "context/style/CustomThemeContext";
-import { useModal } from "context/style/ModalContext";
 import { useReviewData } from "context/data/ReviewDataContext";
-import { Rating, EnlargeOnHover } from "components/index";
+import { useModal } from "context/style/ModalContext";
+// components
+import { Rating } from "components/index";
 import { ReleaseYearLabel, TitleLabel } from "pages/components/index";
-import AnimeDetails from "./AnimeDetails";
+// hooks
+import { useHover, useHoverScale } from "hooks/index";
+// utils
+import { sortData, averageData } from "utils/index";
 
-const AnimeCard = ({ anime }) => {
+import AnimeDetails from "pages/main/AnimeDetails";
+
+const AnimeCard = ({
+  anime,
+  width,
+  height,
+  showDetails = true,
+  onHoverScaleUp = true,
+}) => {
   const theme = useCustomTheme().customTheme;
-  const { reviewData } = useReviewData();
   const { openModal } = useModal();
+  const { reviewData, filterReviewDataIncluded } = useReviewData();
   const [reviews, setReviews] = useState([]);
 
+  const ref = useRef();
+  const isHovered = useHover(ref, true);
+  const scaleUpStyle = useHoverScale(isHovered && onHoverScaleUp, 1.1, 0.5, 3);
+
   useEffect(() => {
-    const filterAnimeData = () => {
-      const animeReviews = reviewData?.filter(
-        (data) => data.animeId === anime.id
-      );
-      if (animeReviews) {
-        animeReviews.sort((a, b) => b.timestamp - a.timestamp);
-        setReviews(animeReviews);
+    const filterReviewData = () => {
+      const filterReview = filterReviewDataIncluded([anime.id], "animeId");
+      if (filterReview) {
+        setReviews(sortData(filterReview, "timestamp", "desc"));
       } else {
         setReviews([]);
       }
     };
 
-    filterAnimeData();
+    filterReviewData();
   }, [reviewData]);
-
-  const averageReviews = () => {
-    const sum = reviews.reduce((total, current) => total + current.star, 0);
-    const average = sum / reviews.length;
-    return average;
-  };
 
   const handleClick = () => {
     openModal(<AnimeDetails anime={anime} />, "custom-modal-anime-details");
   };
 
+  const cardImageHeight = () => {
+    if (showDetails) {
+      return `${parseInt(height, 10) - 120}px`;
+    } else {
+      return "100%";
+    }
+  };
+
   return (
-    <EnlargeOnHover>
-      <Card style={{ ...theme.card, cursor: "pointer", width: "300px", height:"300px" ,borderRadius: "0"}} onClick={handleClick}>
+    <div
+      style={{
+        ...theme.card,
+        ...scaleUpStyle,
+        cursor: "pointer",
+        width: width,
+        height: height,
+        borderRadius: "0",
+        margin: "2px",
+      }}
+      onClick={handleClick}
+      ref={ref}
+    >
+      {showDetails ? (
+        <div>
+          <div
+            style={{
+              width: "100%",
+              height: cardImageHeight(),
+              backgroundImage: `url(${anime.imageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div>
+            <Row style={{ paddingLeft: "10px" }}>
+              <TitleLabel title={anime.title} size="m" />
+            </Row>
+            <Row
+              style={{ textAlign: "right", padding: "20px 10px 0px 0px" }}
+              className="d-flex justify-content-end"
+            >
+              <Col xs="auto">
+                <Rating rating={averageData(reviews, "star")} />
+              </Col>
+              <Col xs="auto">
+                <ReleaseYearLabel year={anime.releaseYear} />
+              </Col>
+            </Row>
+          </div>
+        </div>
+      ) : (
         <div
           style={{
+            position: "relative",
             width: "100%",
-            height: "200px",
+            height: cardImageHeight(),
             backgroundImage: `url(${anime.imageUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
-        <Card.Body>
-          <TitleLabel title={anime.title} size="m" />
-          <Card.Text>
-            <Container>
-              <Row
-                style={{ textAlign: "right", padding: "0.8rem" }}
-                className="d-flex justify-content-end"
-              >
-                <Col xs="auto">
-                  <Rating rating={averageReviews()} />
-                </Col>
-                <Col xs="auto">
-                  <ReleaseYearLabel year={anime.releaseYear} />
-                </Col>
-              </Row>
-            </Container>
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </EnlargeOnHover>
+        >
+          <Container
+            style={{
+              opacity: isHovered ? 1 : 0,
+              transition: "opacity 0.2s linear",
+              position: "absolute",
+              bottom: 0,
+              padding: "10px",
+              width: "100%",
+              background:
+                "linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1))",
+              color: "white",
+            }}
+          >
+            <Row style={{ paddingLeft: "10px" }}>
+              <TitleLabel title={anime.title} size="m" />
+            </Row>
+          </Container>
+        </div>
+      )}
+    </div>
   );
 };
 

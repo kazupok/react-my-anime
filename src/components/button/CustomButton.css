@@ -57,7 +57,7 @@
   border: none;
   border-radius: 3px;
   padding: 10px;
-  z-index: 5;
+  z-index: 10;
 }
 .close-button:focus {
   outline: none;

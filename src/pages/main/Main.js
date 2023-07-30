@@ -1,6 +1,6 @@
 import React from "react";
 import { useCustomTheme } from "../../context/style/CustomThemeContext";
-import Dashboard from "./Dashboard";
+import MyDashboard from "pages/main/MyDashboard";
 
 const Main = (props) => {
   const { selectPage } = props;
@@ -10,9 +10,9 @@ const Main = (props) => {
   const changePage = () => {
     switch (selectPage) {
       case "main":
-        return <Dashboard />;
+        return <MyDashboard />;
       default:
-        return <Dashboard />;
+        return <MyDashboard />;
     }
   };
 

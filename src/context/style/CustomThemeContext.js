@@ -9,7 +9,7 @@ const darkTheme = {
     color:"white"
   },
   header: {
-    backgroundColor:"#3E3E3E",
+    backgroundColor:"#101424",
     color:"white"
   },
   card: {

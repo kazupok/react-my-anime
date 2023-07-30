@@ -9,7 +9,7 @@ const Collection = ({ animeData }) => {
       <Row xs={1} md={2} lg={4} className="g-4">
         {animeData.map((anime) => (
           <Col key={anime.id}>
-            <AnimeCard anime={anime} />
+            <AnimeCard anime={anime} height={"300px"} />
           </Col>
         ))}
       </Row>

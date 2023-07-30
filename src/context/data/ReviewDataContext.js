@@ -6,10 +6,8 @@ const ReviewDataContext = createContext();
 
 export const ReviewDataProvider = ({ children }) => {
   const [reviewData, setReviewData] = useState([]);
-  const { getReviewData, updateReviewData, deleteReviewData } = useFirebaseReviewData(
-    paths.customerReviews,
-    setReviewData
-  );
+  const { getReviewData, updateReviewData, deleteReviewData } =
+    useFirebaseReviewData(paths.customerReviews, setReviewData);
 
   useEffect(() => {
     const fetchReviewData = async () => {
@@ -20,8 +18,34 @@ export const ReviewDataProvider = ({ children }) => {
     fetchReviewData();
   }, []);
 
+  // 特定のIDリストに含まれているアニメをfilterする関数
+  const filterReviewDataIncluded = (idList, key = "userId") => {
+    if (!idList) return reviewData;
+    const filterReviewData = idList.map((id) => {
+      return reviewData.find((review) => review[key] === id);
+    });
+    return filterReviewData;
+  };
+
+  // IDリストに含まれていないアニメをfilterする関数
+  const filterReviewDataExcluded = (idList, key = "userId") => {
+    if (!idList) return reviewData;
+    const filterReviewData = reviewData.filter((review) => {
+      return !idList.includes(review[key]);
+    });
+    return filterReviewData;
+  };
+
   return (
-    <ReviewDataContext.Provider value={{ reviewData, updateReviewData , deleteReviewData}}>
+    <ReviewDataContext.Provider
+      value={{
+        reviewData,
+        updateReviewData,
+        deleteReviewData,
+        filterReviewDataIncluded,
+        filterReviewDataExcluded,
+      }}
+    >
       {children}
     </ReviewDataContext.Provider>
   );

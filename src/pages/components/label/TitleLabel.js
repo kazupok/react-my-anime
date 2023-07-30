@@ -7,8 +7,8 @@ const TitleLabel = ({ title, size = "m" }) => {
 
   const fontSizeMap = {
     s: "1.2rem",
-    m: "1.5rem",
-    l: "3rem",
+    m: "1.3rem",
+    l: "2.8rem",
   };
 
   return (

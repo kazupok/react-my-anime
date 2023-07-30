@@ -10,6 +10,7 @@ export { default as CustomLabel } from './label/CustomLabel';
 // Icon
 export { default as ToggleIcon } from './icon/ToggleIcon';
 export { default as ProgressIcon } from './icon/ProgressIcon';
+export { default as ButtonIcon } from './icon/ButtonIcon';
 export { default as Star } from './icon/favorite/Star';
 export { default as Rating } from './icon/favorite/Rating';
 export { default as EditRating } from './icon/favorite/EditRating';
@@ -18,5 +19,6 @@ export { default as CustomInput } from './form/CustomInput';
 export { default as CustomTextArea } from './form/CustomTextArea';
 // Effect
 export { default as ModalWrapper } from './effect/ModalWrapper';
-export { default as EnlargeOnHover } from './effect/EnlargeOnHover';
 export { default as SlideToggle } from './effect/SlideToggle';
+export { default as CustomCarousel } from './effect/CustomCarousel';
+

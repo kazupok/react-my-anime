@@ -10,11 +10,11 @@ export { default as TitleLabel } from './label/TitleLabel';
 export { default as FavoriteIcon } from './icon/FavoriteIcon';
 export { default as WatchedIcon } from './icon/WatchedIcon';
 export { default as StarIcon } from './icon/StarIcon';
+export { default as ArrowRevButtonIcon } from './icon/ArrowRevButtonIcon';
 // Button
 export { default as LoginButton } from './button/LoginButton';
 export { default as SignInButton } from './button/SignInButton';
 export { default as GoogleLoginButton } from './button/GoogleLoginButton';
 export { default as LogoutButton } from './button/LogoutButton';
-export { default as ArrowButton } from './button/ArrowButton';
 // Style
 export { default as AccentWrapper } from './style/AccentWrapper';

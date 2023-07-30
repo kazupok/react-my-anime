@@ -19,5 +19,6 @@ code {
   body,
   #root {
     height: auto;
+    width: 100%;
   }
 }

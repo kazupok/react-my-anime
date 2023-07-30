@@ -1,39 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-// useContext
-import { useAnimeData } from "context/data/AnimeDataContext";
-import { useUserData } from "context/data/UserDataContext";
-// components
+
 import CustomButtonOnClick from "components/button/CustomButtonOnClick";
-import { ArrowButton } from "pages/components/index";
-// contents
-import Collection from "./Collection";
-import HorizontalCollection from "./HorizontalCollection";
+import { ArrowRevButtonIcon, TitleLabel } from "pages/components/index";
 
-const Dashboard = () => {
-  const {
-    animeData,
-    allAnimeData,
-    sortAnimeDataIncluded,
-    sortAnimeDataExcluded,
-  } = useAnimeData();
-  const { userData } = useUserData();
+import Collection from "pages/main/Collection";
+import HorizontalCollection from "pages/main/HorizontalCollection";
 
-  const [allData, setAllData] = useState([]);
-  const [sortedWatchedData, setSortedWatchedData] = useState([]);
-  const [sortedNotWatchedData, setSortedNotWatchedData] = useState([]);
-  const [currentAnimeData, setCurrentAnimeData] = useState([]);
-
+const Dashboard = ({ dataMap }) => {
+  const [currentAnimeIndex, setCurrentAnimeIndex] = useState(0);
   const [showCollection, setShowCollection] = useState(false);
 
-  useEffect(() => {
-    setAllData(allAnimeData());
-    setSortedWatchedData(sortAnimeDataIncluded(userData.watched));
-    setSortedNotWatchedData(sortAnimeDataExcluded(userData.watched));
-  }, [animeData, userData]);
-
-  const handleSortData = (data) => {
-    setCurrentAnimeData(data);
+  const handleSortData = (index) => {
+    setCurrentAnimeIndex(index);
     setShowCollection(true);
   };
 
@@ -47,46 +26,44 @@ const Dashboard = () => {
     className: "text-toggle-button",
   };
 
-  const buttons = [
-    { label: "全てのアニメ", data: allData },
-    { label: "まだ見てないアニメ", data: sortedNotWatchedData },
-    { label: "もう見たアニメ", data: sortedWatchedData },
-  ];
-
   return (
     <>
       {showCollection ? (
-        <Container style={{ paddingTop: "3rem" }}>
-          <div>
-            <ArrowButton onClick={handleRevButton} />
-          </div>
-
-          <Container style={{ paddingTop: "3rem" }}>
-            <Row>
-              <Collection animeData={currentAnimeData} />
-            </Row>
-          </Container>
+        <Container>
+          <Row>
+            <Container style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
+              <ArrowRevButtonIcon onClick={handleRevButton} />
+            </Container>
+          </Row>
+          <Row style={{textAlign:"center"}}>
+            <TitleLabel title={dataMap[currentAnimeIndex].label} size={"m"}/>
+          </Row>
+          <Row>
+            <Container style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
+              <Collection animeData={dataMap[currentAnimeIndex].animeData} />
+            </Container>
+          </Row>
         </Container>
       ) : (
         <Container>
-          <Row style={{ padding: "3rem" }}>
+          <Row style={{ padding: "1rem"}}>
             <Col>
-              {buttons.map((button, index) => (
-                <>
-                  <Row key={index}>
+              {dataMap.map((data, index) => (
+                <div key={index}>
+                  <Row>
                     <Col>
                       <CustomButtonOnClick
                         {...commonButtonStyle}
-                        onClick={() => handleSortData(button.data)}
+                        onClick={() => handleSortData(index)}
                       >
-                        {button.label}
+                        {data.label+"　　　すべて見る▶︎"}
                       </CustomButtonOnClick>
                     </Col>
                   </Row>
-                  <Row style={{ height: "360px" }}>
-                    <HorizontalCollection animeData={button.data} />
+                  <Row style={{ height: "300px", width:"100%", textAlign:"left" }}>
+                    <HorizontalCollection animeData={data.animeData} />
                   </Row>
-                </>
+                </div>
               ))}
             </Col>
           </Row>
