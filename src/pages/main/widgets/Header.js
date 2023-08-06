@@ -2,7 +2,7 @@
 import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
-import { useCustomTheme } from "context/style/CustomThemeContext";
+import { useCustomTheme } from "contexts/CustomThemeContext";
 
 import { LogoutButton } from "pages/components";
 
@@ -19,15 +19,6 @@ const Header = ({ handleSelectPage }) => {
     >
       <Navbar>
         <Container className="d-flex align-items-center">
-          {/* HOMEアイコン */}
-          <Navbar.Brand href="/" className="navbar-home">
-            <img
-              src={theme.icons.home}
-              height="30"
-              className="d-inline-block align-top"
-            />
-          </Navbar.Brand>
-
           {/* ログアウトボタン */}
           <Nav className="ms-auto align-items-center justify-content-end">
             <LogoutButton />

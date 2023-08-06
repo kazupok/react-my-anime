@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useModal } from "context/style/ModalContext";
+import { useModal } from "contexts/ModalContext";
 
 const useHoverScale = (isScaleUp, scale, duration, zindex) => {
   const { modalOpen } = useModal();

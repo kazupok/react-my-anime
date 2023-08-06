@@ -1,7 +1,7 @@
 // ModalWrapper.js
 
 import React from "react";
-import { useModal } from "../../context/style/ModalContext";
+import { useModal } from "../../contexts/ModalContext";
 import Modal from "react-modal";
 import "./ModalWrapper.css";
 import CustomButtonOnClick from "../button/CustomButtonOnClick";
@@ -22,10 +22,10 @@ const ModalWrapper = ({ children, className }) => {
       <div className="modal-inner-content">
         <div className="scrollable-content">{children}</div>
         <CustomButtonOnClick
-          backgroundColor="rgba(0,0,0, 0.5)"
+          backgroundColor="rgba(0,0,0,0.5)"
           borderColor="#007fff"
           textColor="white"
-          className="close-button"
+          className="bt-pos-abs close-button"
           onClick={closeModal}
         >
           <IoClose size={25} className="close-button-icon"/>

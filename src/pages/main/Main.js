@@ -1,9 +1,17 @@
 import React from "react";
-import { useCustomTheme } from "../../context/style/CustomThemeContext";
+// useContext
+import { useCustomTheme } from "contexts/CustomThemeContext";
+import { useUserData } from "contexts/data/UserDataContext";
+import { useAnimeData } from "contexts/data/AnimeDataContext";
+import { useReviewData } from "contexts/data/ReviewDataContext";
+
 import MyDashboard from "pages/main/MyDashboard";
 
 const Main = (props) => {
   const { selectPage } = props;
+  const { userData } = useUserData();
+  const { animeData } = useAnimeData();
+  const { reviewData } = useReviewData();
   /* Context */
   const theme = useCustomTheme().customTheme;
 
@@ -25,7 +33,11 @@ const Main = (props) => {
         width: "100%",
       }}
     >
-      {changePage()}
+      {userData?.id && animeData.length && reviewData.length ? (
+        <>{changePage()}</>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

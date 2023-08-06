@@ -31,6 +31,15 @@ const darkTheme = {
   icon:{
     color:"white"
   },
+  icon1:{
+    color:"gray"
+  },
+  icon2:{
+    color:"#ffff7a"
+  },
+  icon3:{
+    color:"#ff7a7a"
+  },
   accentColor1: {
     backgroundColor:"#30343c"
   },

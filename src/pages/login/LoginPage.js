@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Container, Form, Row, Col } from "react-bootstrap";
-
-import { auth } from "auth/firebaseConfig";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-
+// useContext
+import { useAuthContext } from "contexts/AuthContext";
+// components
 import { CustomInput } from "components/index";
 import {
   LoginButton,
@@ -15,29 +14,20 @@ import {
 import "./LoginRegisterPage.css";
 
 const LoginPage = () => {
-  const [user, setUser] = useState();
+  const { auth, login } = useAuthContext();
+  
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-    } catch (error) {
-      alert("メールアドレスまたはパスワードが間違っています");
-    }
+    await login(loginEmail, loginPassword);
   };
 
   return (
     <>
-      {user ? (
+      {auth?.accessToken ? (
         <Navigate to={`/`} />
       ) : (
         <div className="login-register-container">
@@ -51,7 +41,6 @@ const LoginPage = () => {
                 </Row>
                 <Form onSubmit={handleSubmit}>
                   <Row className="mb-3">
-                    {/*メールアドレス */}
                     <CustomInput
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
@@ -68,7 +57,6 @@ const LoginPage = () => {
                     />
                   </Row>
                   <Row className="mb-5">
-                    {/*パスワード */}
                     <CustomInput
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
@@ -86,26 +74,22 @@ const LoginPage = () => {
                   </Row>
 
                   <Row className="justify-content-center mb-5">
-                    {/*ログインボタン */}
-                    <LoginButton />
+                    <LoginButton type="submit" />
                   </Row>
                 </Form>
               </Col>
             </Row>
-            {/*サインアップとグーグルログイン */}
             <Row className="justify-content-between">
               <Col
                 xs={6}
                 className="d-flex align-items-center justify-content-end"
               >
-                {/*サインアップ*/}
-                <SignInButton to={"/register/"}/>
+                <SignInButton to={"/register/"} />
               </Col>
               <Col
                 xs={6}
                 className="d-flex align-items-center justify-content-start"
               >
-                {/*グーグルログイン*/}
                 <GoogleLoginButton />
               </Col>
             </Row>

@@ -1,20 +1,11 @@
 // GoogleAuth.js
 import React from "react";
 
-import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "auth/firebaseConfig";
-
 import { CustomButtonOnClick } from "components/index";
 
 const GoogleLoginButton = () => {
   const signInWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider).catch((err) =>
-        alert(err.message)
-      );
-    } catch (error) {
-      console.error("Error during Google Sign In: ", error);
-    }
+    console.log("Google Login");
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from "react";
-import ModalWrapper from "../../components/effect/ModalWrapper";
+import ModalWrapper from "../components/effect/ModalWrapper";
 
 const ModalContext = createContext();
 

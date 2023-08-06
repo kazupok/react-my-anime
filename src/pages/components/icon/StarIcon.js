@@ -1,6 +1,6 @@
 import React from "react";
 import { FaStar as FullStar, FaRegStar as EmptyStar } from "react-icons/fa";
-import { useCustomTheme } from "../../../context/style/CustomThemeContext";
+import { useCustomTheme } from "../../../contexts/CustomThemeContext";
 import ToggleIcon from "../../../components/icon/ToggleIcon";
 
 const StarIcon = ({ toggle, size = "2em", onClick }) => {
@@ -11,8 +11,8 @@ const StarIcon = ({ toggle, size = "2em", onClick }) => {
       toggle={toggle}
       icon1={FullStar}
       icon2={EmptyStar}
-      color1={theme.icon.color1}
-      color2={theme.icon.color2}
+      color1={theme.icon.color}
+      color2={theme.icon1.color}
       size={size}
       onClick={onClick}
     />

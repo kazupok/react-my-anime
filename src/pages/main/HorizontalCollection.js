@@ -32,10 +32,10 @@ const HorizontalCollection = ({ animeData }) => {
 
   // 4つのカードを表示する場合の横幅と高さの計算
   const cardWidth = `${96 / displayCount}%`; // 4つのカードを均等に表示
-
+  
   return (
     <CustomCarousel displayCount={displayCount} padding="5px">
-      {animeData.map((anime) => (
+      {animeData?.map((anime) => (
         <AnimeCard
           key={anime.id}
           anime={anime}

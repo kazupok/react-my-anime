@@ -1,6 +1,6 @@
 import React from "react";
 // useContext
-import { useCustomTheme } from "context/style/CustomThemeContext";
+import { useCustomTheme } from "contexts/CustomThemeContext";
 // commponents
 import {CustomLabel} from "components/index";
 

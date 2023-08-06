@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 // useContext
-import { useReviewData } from "context/data/ReviewDataContext";
-import { useUser } from "context/auth/UserContext";
+import { useReviewData } from "contexts/data/ReviewDataContext";
 // commponents
-import { TitleLabel } from "pages/components/index";
+import {
+  TitleLabel,
+  ReviewWriteButtonIcon,
+  TrashButtonIcon,
+  OutlineClosedButtonIcon,
+} from "pages/components/index";
 import {
   CustomButtonOnClick,
   CustomTextArea,
   EditRating,
 } from "components/index";
 
-const EditReview = ({ userReview, animeId, setIsOpenEditReview }) => {
-  const { user } = useUser();
-  const { updateReviewData, deleteReviewData } = useReviewData();
-  const [id, setId] = useState("");
+const EditReview = ({ userReview, userId, animeId, setIsOpenEditReview }) => {
+  const { addReviewData, updateReviewData, deleteReviewData } = useReviewData();
   const [star, setStar] = useState(1);
   const [comment, setComment] = useState("");
 
   const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   const handleUpdateReviewData = () => {
-    const now = new Date();
-    const updatedData = {
-      id: id,
-      animeId: animeId,
-      userId: user.uid,
+    const newUserReview = {
+      user: userId,
+      anime: animeId,
       star: star,
       comment: comment,
-      timestamp: now,
     };
-    updateReviewData(updatedData);
+    console.log(newUserReview);
+    userReview
+      ? updateReviewData(userReview.id, newUserReview)
+      : addReviewData(newUserReview);
     handleCloseEditReview();
   };
 
   const handledeleteReviewData = () => {
-    if (userReview) {
+    if (userReview?.id) {
       deleteReviewData(userReview.id);
       handleCloseEditReview();
       setStar(1);
@@ -49,30 +51,19 @@ const EditReview = ({ userReview, animeId, setIsOpenEditReview }) => {
   };
 
   useEffect(() => {
-    if (userReview) {
-      setId(userReview.id);
+    if (userReview?.id) {
       setStar(userReview.star);
       setComment(userReview.comment);
       setShowDeleteButton(true);
-    } else {
-      setId(user.uid + "+" + animeId);
     }
-  }, [userReview, animeId]);
+  }, [userReview]);
 
   return (
-    <Container style={{ padding: "2rem" }}>
+    <Container style={{ padding: "2rem", position: "relative" }}>
       <Row>
         <Col>
-          <div style={{ textAlign: "right" }}>
-            <CustomButtonOnClick
-              backgroundColor="transparent"
-              borderColor="white"
-              textColor="white"
-              className="text-toggle-button"
-              onClick={handleCloseEditReview}
-            >
-              ▲閉じる
-            </CustomButtonOnClick>
+          <div style={{ textAlign: "right", paddingBottom: "1rem" }}>
+            <OutlineClosedButtonIcon onClick={handleCloseEditReview} />
           </div>
         </Col>
       </Row>
@@ -95,59 +86,39 @@ const EditReview = ({ userReview, animeId, setIsOpenEditReview }) => {
       <Row>
         <hr />
       </Row>
-      <Row style={{ padding: "1.5rem" }}>
-        <Col>
-          <CustomTextArea
-            id="comment"
-            placeholder="コメント"
-            name="comment"
-            type="comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            required
-            className="radius-input text-area-input"
-            backgroundColor="transparent"
-            borderColor="white"
-            color="white"
-            placeholderColor="grey"
-            rows={5}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <div style={{ textAlign: "center" }}>
-            <CustomButtonOnClick
-              backgroundColor="transparent"
-              borderColor="#ffff7a"
-              textColor="#ffff7a"
-              className="radius-button small-button"
-              onClick={handleUpdateReviewData}
-            >
-              書く
-            </CustomButtonOnClick>
-          </div>
-        </Col>
-      </Row>
       {showDeleteButton ? (
         <Row>
           <Col>
             <div style={{ textAlign: "right" }}>
-              <CustomButtonOnClick
-                backgroundColor="transparent"
-                borderColor="#ff7a7a"
-                textColor="#ff7a7a"
-                className="radius-button ssmall-button ssmall-padding-button"
-                onClick={handledeleteReviewData}
-              >
-                削除
-              </CustomButtonOnClick>
+              <TrashButtonIcon onClick={handledeleteReviewData} />
             </div>
           </Col>
         </Row>
       ) : (
         <></>
       )}
+      <Row style={{ padding: "1.5rem" }}>
+        <Col>
+          <div style={{ position: "relative" }}>
+            <CustomTextArea
+              id="comment"
+              placeholder="コメント"
+              name="comment"
+              type="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              required
+              className="radius-input text-area-input"
+              backgroundColor="transparent"
+              borderColor="white"
+              color="white"
+              placeholderColor="grey"
+              rows={5}
+            />
+            <ReviewWriteButtonIcon onClick={handleUpdateReviewData} />
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };

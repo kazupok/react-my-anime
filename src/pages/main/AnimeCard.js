@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 // useContext
-import { useCustomTheme } from "context/style/CustomThemeContext";
-import { useReviewData } from "context/data/ReviewDataContext";
-import { useModal } from "context/style/ModalContext";
+import { useCustomTheme } from "contexts/CustomThemeContext";
+import { useReviewData } from "contexts/data/ReviewDataContext";
+import { useModal } from "contexts/ModalContext";
 // components
 import { Rating } from "components/index";
 import { ReleaseYearLabel, TitleLabel } from "pages/components/index";
@@ -32,7 +32,7 @@ const AnimeCard = ({
 
   useEffect(() => {
     const filterReviewData = () => {
-      const filterReview = filterReviewDataIncluded([anime.id], "animeId");
+      const filterReview = filterReviewDataIncluded([anime.id], "anime");
       if (filterReview) {
         setReviews(sortData(filterReview, "timestamp", "desc"));
       } else {
@@ -75,27 +75,33 @@ const AnimeCard = ({
             style={{
               width: "100%",
               height: cardImageHeight(),
-              backgroundImage: `url(${anime.imageUrl})`,
+              backgroundImage: `url(${anime.image_url})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           />
-          <div>
-            <Row style={{ paddingLeft: "10px" }}>
+          <Container
+            style={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <Row style={{ flex: 1, paddingLeft: "10px" }}>
               <TitleLabel title={anime.title} size="m" />
             </Row>
             <Row
-              style={{ textAlign: "right", padding: "20px 10px 0px 0px" }}
+              style={{
+                flex: 1,
+                textAlign: "right",
+                padding: "20px 10px 0px 0px",
+              }}
               className="d-flex justify-content-end"
             >
               <Col xs="auto">
                 <Rating rating={averageData(reviews, "star")} />
               </Col>
               <Col xs="auto">
-                <ReleaseYearLabel year={anime.releaseYear} />
+                <ReleaseYearLabel year={anime.release_year} />
               </Col>
             </Row>
-          </div>
+          </Container>
         </div>
       ) : (
         <div
@@ -103,7 +109,7 @@ const AnimeCard = ({
             position: "relative",
             width: "100%",
             height: cardImageHeight(),
-            backgroundImage: `url(${anime.imageUrl})`,
+            backgroundImage: `url(${anime.image_url})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

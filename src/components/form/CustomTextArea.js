@@ -17,6 +17,7 @@ const CustomTextArea = ({
   color,
   placeholderColor,
   rows = 5,
+  style
 }) => {
   const placeholderClass = placeholderColor ? `placeholder-${id}` : "";
   if (placeholderColor) {
@@ -30,6 +31,7 @@ const CustomTextArea = ({
   }
 
   const styles = {
+    ...style,
     backgroundColor: backgroundColor,
     borderColor: borderColor,
     color: color,

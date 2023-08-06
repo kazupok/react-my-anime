@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCustomTheme } from '../../../context/style/CustomThemeContext';
+import { useCustomTheme } from '../../../contexts/CustomThemeContext';
 
 const AccentWrapper = ({ children, styleName }) => {
   const theme = useCustomTheme().customTheme;

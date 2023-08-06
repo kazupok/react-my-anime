@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import useBreakpoint from "context/auth/useBreakpoint";
+import useBreakpoint from "hooks/useBreakpoint";
 
 const CardCountContext = createContext(4);
 

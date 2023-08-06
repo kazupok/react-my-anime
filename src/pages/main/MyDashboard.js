@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
 // useContext
-import { useAnimeData } from "context/data/AnimeDataContext";
-import { useUserData } from "context/data/UserDataContext";
-import { CardCountProvider } from "context/style/CardCountContext";
+import { useAnimeData } from "contexts/data/AnimeDataContext";
+import { useUserData } from "contexts/data/UserDataContext";
+import { CardCountProvider } from "contexts/CardCountContext";
 // utils
 import { filterMatchingData } from "utils/index";
 // contents
 import Dashboard from "pages/main/Dashboard";
 
-
 const MyDashboard = () => {
   const {
     animeData,
-    allAnimeData,
     filterAnimeDataIncluded,
     filterAnimeDataExcluded,
   } = useAnimeData();
   const { userData } = useUserData();
 
-  const [allData, setAllData] = useState([]);
   const [watchedData, setWatchedData] = useState([]);
   const [notWatchedData, setNotWatchedData] = useState([]);
   const [favoriteData, setFavoriteData] = useState([]);
   const [futureWatchedData, setFutureWatchedData] = useState([]);
 
   useEffect(() => {
-    setAllData(allAnimeData());
     setWatchedData(filterAnimeDataIncluded(userData.watched));
     setNotWatchedData(filterAnimeDataExcluded(userData.watched));
     setFavoriteData(filterAnimeDataIncluded(userData.favorites));
@@ -38,7 +34,7 @@ const MyDashboard = () => {
   }, [notWatchedData, favoriteData]);
 
   const dataMap = [
-    { label: "全てのアニメ", animeData: allData },
+    { label: "全てのアニメ", animeData: animeData },
     { label: "見たいアニメ", animeData: futureWatchedData },
     { label: "お気に入りのアニメ", animeData: favoriteData },
     { label: "まだ見てないアニメ", animeData: notWatchedData },
@@ -47,7 +43,7 @@ const MyDashboard = () => {
 
   return (
     <CardCountProvider>
-      <Dashboard dataMap={dataMap} />
+      {dataMap[0].animeData.length && <Dashboard dataMap={dataMap} />}
     </CardCountProvider>
   );
 };

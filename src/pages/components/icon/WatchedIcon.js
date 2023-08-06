@@ -1,6 +1,6 @@
 import React from "react";
 import { TbEyeCheck, TbEyeX} from "react-icons/tb";
-import { useCustomTheme } from "../../../context/style/CustomThemeContext";
+import { useCustomTheme } from "../../../contexts/CustomThemeContext";
 import ToggleIcon from "../../../components/icon/ToggleIcon";
 
 const WatchedIcon = ({ toggle, size = "2em", onClick }) => {
@@ -11,8 +11,8 @@ const WatchedIcon = ({ toggle, size = "2em", onClick }) => {
       toggle={toggle}
       icon1={TbEyeCheck}
       icon2={TbEyeX}
-      color1={theme.icon.color1}
-      color2={theme.icon.color2}
+      color1={theme.icon.color}
+      color2={theme.icon1.color}
       size={size}
       onClick={onClick}
     />

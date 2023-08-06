@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCustomTheme } from "../../../context/style/CustomThemeContext";
+import { useCustomTheme } from "../../../contexts/CustomThemeContext";
 import CustomLabel from '../../../components/label/CustomLabel';
 
 const IconDescriptionLabel = ({ description }) => {

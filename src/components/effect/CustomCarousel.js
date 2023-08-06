@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { useModal } from "context/style/ModalContext";
+import { useModal } from "contexts/ModalContext";
 // hooks
 import { useHover } from "hooks/index";
 

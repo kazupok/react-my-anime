@@ -1,18 +1,14 @@
 import React from "react";
-
-import { auth } from "auth/firebaseConfig";
-import { signOut } from "firebase/auth";
-
 import CustomButtonOnClick from "components/button/CustomButtonOnClick";
+// useContext
+import { useAuthContext } from "contexts/AuthContext";
+
 
 const LogoutButton = () => {
-    
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error(error);
-    }
+  const { logout } = useAuthContext();
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (

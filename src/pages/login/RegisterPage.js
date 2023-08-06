@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Container, Form, Row, Col } from "react-bootstrap";
-
-import { auth } from "auth/firebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+// useContext
+import { useAuthContext } from "contexts/AuthContext";
 
 import { CustomInput } from "components/index";
 import {
@@ -18,33 +14,19 @@ import {
 import "./LoginRegisterPage.css";
 
 const RegisterPage = () => {
-  const [user, setUser] = useState("");
+  const { auth, signIn } = useAuthContext();
+
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-    } catch (error) {
-      alert("正しく入力してください");
-    }
+    await signIn(registerEmail, registerEmail, registerPassword);
   };
 
   return (
     <>
-      {user ? (
+      {auth?.accessToken ? (
         <Navigate to={`/`} />
       ) : (
         <div className="login-register-container">
@@ -106,7 +88,7 @@ const RegisterPage = () => {
                 className="d-flex align-items-center justify-content-end"
               >
                 {/*ログインボタン */}
-                <LoginButton to={"/login/"}/>
+                <LoginButton to={"/login/"} />
               </Col>
               <Col
                 xs={6}

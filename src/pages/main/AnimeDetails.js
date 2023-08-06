@@ -2,9 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 // useContext
-import { useUser } from "context/auth/UserContext";
-import { useUserData } from "context/data/UserDataContext";
-import { useReviewData } from "context/data/ReviewDataContext";
+import { useUserData } from "contexts/data/UserDataContext";
+import { useReviewData } from "contexts/data/ReviewDataContext";
 // commponets
 import { CustomImageShadow, Rating, SlideToggle } from "components/index";
 import {
@@ -17,117 +16,86 @@ import {
   StarIcon,
   AccentWrapper,
 } from "pages/components/index";
+// utils
+import { averageData, toggleListItem, sortData } from "utils/index";
 
 import ReviewList from "./ReviewList";
 import EditReview from "./EditReview";
 
 const AnimeDetails = ({ anime }) => {
-  const { user } = useUser();
   const { userData, updateUserData } = useUserData();
   const { reviewData } = useReviewData();
 
-  const reviewSectionRef = useRef(null);
+  const [reviews, setReviews] = useState([]);
+  const [userReview, setUserReview] = useState({});
 
   const [isWatched, setIsWatched] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isReview, setIsReview] = useState(false);
-  const [reviews, setReviews] = useState([]);
-
   const [isOpenEditReview, setIsOpenEditReview] = useState(false);
 
+  const reviewSectionRef = useRef(null);
+
+  // 対象のアニメのレビューのみフィルターし、日付が新しい順にソート
   useEffect(() => {
     const filterAnimeData = () => {
-      const animeReviews = reviewData?.filter(
-        (data) => data.animeId === anime.id
+      const filteredReviews = reviewData.filter(
+        (data) => data.anime === anime.id
       );
-      if (animeReviews) {
-        animeReviews.sort((a, b) => b.timestamp - a.timestamp);
-        setReviews(animeReviews);
+      if (filteredReviews?.length) {
+        console.log(filteredReviews);
+        const sortedReviews = sortData(filteredReviews, "timestamp", "desc", "time");
+        setReviews(sortedReviews);
       } else {
         setReviews([]);
       }
     };
-
     filterAnimeData();
   }, [reviewData]);
 
+  // 「お気に入り」と「もう見た」の状態変数を更新
   useEffect(() => {
-    if (userData) {
+    if (userData.id) {
       setIsWatched(userData.watched.includes(anime.id));
       setIsFavorite(userData.favorites.includes(anime.id));
     }
   }, [userData, anime.id]);
 
+  // ユーザーのレビューがあるかの状態変数を更新
   useEffect(() => {
-    const userReview = reviews?.find((review) => {
-      return review.userId === user.uid;
-    });
-    if (userReview) {
-      setIsReview(true);
-    } else {
-      setIsReview(false);
-    }
-  }, [reviews]);
+    setUserReview(
+      reviews.find((review) => {
+        return review.user === userData.user;
+      })
+    );
+  }, [reviews, userData]);
 
-  const averageReviews = () => {
-    const sum = reviews?.reduce((total, current) => total + current.star, 0);
-    const average = sum / reviews.length;
-    return average;
-  };
-
+  // 「もう見た」を更新する
   const handleToggleWatched = async () => {
-    if (user) {
-      const newWatchedList = isWatched
-        ? //リストにあるのでそれ以外だけ取り出し
-          userData.watched.filter((id) => id !== anime.id)
-        : //リストにないので追加
-          [...userData.watched, anime.id];
-      //「視聴済み」のリストに含まれているかどうかをチェック
-      const updatedData = { ...userData, watched: newWatchedList };
-
-      updateUserData(user.uid, updatedData).catch((error) => {
-        console.error("Error updating userData: ", error);
-      });
-    }
+    const updatedData = toggleListItem(userData.watched, isWatched, anime.id);
+    await updateUserData({ watched: updatedData });
   };
 
+  // 「お気に入り」を更新する
   const handleToggleFavorite = async () => {
-    if (user) {
-      const newFavoriteList = isFavorite
-        ? //リストにあるのでそれ以外だけ取り出し
-          userData.favorites.filter((id) => id !== anime.id)
-        : //リストにないので追加
-          [...userData.favorites, anime.id];
-      //「視聴済み」のリストに含まれているかどうかをチェック
-      const updatedData = { ...userData, favorites: newFavoriteList };
-
-      updateUserData(user.uid, updatedData).catch((error) => {
-        console.error("Error updating userData: ", error);
-      });
-    }
+    const updatedData = toggleListItem(
+      userData.favorites,
+      isFavorite,
+      anime.id
+    );
+    await updateUserData({ favorites: updatedData });
   };
 
+  // レビュー編集部分を開く
   const handleToggleOpenEditReview = () => {
     setIsOpenEditReview(true);
     if (reviewSectionRef.current) {
       reviewSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-
-  const userReview = () => {
-    const userReview = reviews?.find((review) => {
-      return review.userId === user.uid;
-    });
-    if (userReview) {
-      return userReview;
-    } else {
-      return null;
-    }
-  };
-
+  
   return (
     <>
-      <CustomImageShadow src={anime.imageUrl} alt={anime.title} />
+      <CustomImageShadow src={anime.image_url} alt={anime.title} />
       <Container style={{ paddingLeft: "2rem", paddingRight: "2rem" }}>
         {/*メインタイトル */}
         <Row>
@@ -137,18 +105,18 @@ const AnimeDetails = ({ anime }) => {
         </Row>
         {/*キャッチフレーズ */}
         <Row style={{ padding: "1rem" }}>
-          <TitleLabel title={anime.catchPhrase} size="m" />
+          <TitleLabel title={anime.catch_phrase} size="m" />
         </Row>
         <Row className="justify-content-between" style={{ padding: "2rem" }}>
           <Col xs={12} md={5}>
             <Row style={{ padding: "1.5rem" }}>
               {/*レビュー */}
               <Col>
-                <Rating rating={averageReviews()} />
+                <Rating rating={averageData(reviews, "star")} />
               </Col>
               {/*リリース年 */}
               <Col>
-                <ReleaseYearLabel year={anime.releaseYear} />
+                <ReleaseYearLabel year={anime.release_year} />
               </Col>
             </Row>
           </Col>
@@ -182,7 +150,7 @@ const AnimeDetails = ({ anime }) => {
               <Col>
                 <Row style={{ textAlign: "center" }}>
                   <StarIcon
-                    toggle={isReview}
+                    toggle={userReview}
                     onClick={handleToggleOpenEditReview}
                   />
                 </Row>
@@ -222,7 +190,8 @@ const AnimeDetails = ({ anime }) => {
         <AccentWrapper styleName={"accentColor1"}>
           {/*レビュー編集 */}
           <EditReview
-            userReview={userReview()}
+            userReview={userReview}
+            userId={userData.user}
             animeId={anime.id}
             setIsOpenEditReview={setIsOpenEditReview}
           />

@@ -6,6 +6,8 @@ const ButtonIcon = ({
   icon: Icon = FullStar,
   color = "white",
   onClick = () => {},
+  style,
+  className="bt-trans bt-trans-s",
 }) => {
   const fontSizeMap = {
     s: "0.8rem",
@@ -15,13 +17,15 @@ const ButtonIcon = ({
     xl:"3rem",
   };
   const iconStyles = {
+    ...style,
     display: "inline-block",
     fontSize: fontSizeMap[size],
     cursor: "pointer",
+    width:"fit-content"
   };
 
   return (
-    <div style={iconStyles} onClick={onClick}>
+    <div style={iconStyles} onClick={onClick} className={className}>
       <Icon color={color} />
     </div>
   );
