@@ -14,10 +14,6 @@ import {
 import "./LoginRegisterPage.css";
 
 const LoginPage = () => {
-  const JWT_CREATE_URL = process.env.REACT_APP_RESTAPI_JWT_CREATE_URL;
-  const JWT_REFRESH_URL = process.env.REACT_APP_RESTAPI_JWT_REFRESH_URL;
-  const USER_URL = process.env.REACT_APP_RESTAPI_USER_URL;
-  
   const { auth, login } = useAuthContext();
   
   const [loginEmail, setLoginEmail] = useState("");
@@ -31,7 +27,6 @@ const LoginPage = () => {
 
   return (
     <>
-    <p>{JWT_CREATE_URL}{JWT_REFRESH_URL }{USER_URL}</p>
       {auth?.accessToken ? (
         <Navigate to={`/`} />
       ) : (
